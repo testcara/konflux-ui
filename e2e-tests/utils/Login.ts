@@ -1,6 +1,7 @@
+import common = require('mocha/lib/interfaces/common');
 import { NavItem, pageTitles } from '../support/constants/PageTitle';
 import { localKonfluxLoginPO, stageLoginPO } from '../support/pageObjects/global-po';
-import { GetStartedPage } from '../support/pages/GetStartedPage';
+import { GetStartedPage, GetAppStartedPage } from '../support/pages/GetStartedPage';
 import { Common } from './Common';
 
 export class Login {
@@ -33,10 +34,19 @@ export class Login {
 
   private static waitForApps() {
     Common.waitForLoad();
+    // Wait for https://localhost:8080/ loaded
     GetStartedPage.waitForLoad();
-    Common.navigateTo(NavItem.applications);
+    // Go to the https://localhost:8080/workspaces
+    Common.navigateTo(NavItem.namespaces);
+    Common.verifyPageTitle(pageTitles.namespaces);
+    Common.waitForLoad();
+    cy.testA11y(`${pageTitles.namespaces}`);
+    // Go to https://localhost:8080/workspaces/your-tenant/applications
+    cy.contains('Go to the namespace').first().click();
+    Common.waitForLoad();
+    GetAppStartedPage.waitForLoad();
     Common.verifyPageTitle(pageTitles.applications);
     Common.waitForLoad();
-    cy.testA11y(`${pageTitles.applications} page`);
+    cy.testA11y(`${pageTitles.applications}`);
   }
 }

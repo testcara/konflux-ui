@@ -85,10 +85,13 @@ export const environmentsPagePO = {
   envCardConnectionLabel: 'div[class="pf-v5-c-card__title"] span[class="pf-v5-c-label__content"]',
 };
 
-export const getStartedPagePO = {
-  createAppButton: '[data-test="create-application"]',
+export const getAppStartedPagePO = {
+  createAppButton: 'a[class="pf-v5-c-button pf-m-primary"]',
 };
 
+export const getNamespacePagePo = {
+  goToNamespaceLink: '[data-test="view-my-applications"]',
+};
 export const componentDetailsPO = {
   buildImage: '[data-test="build-container-image-test"] input',
   route: '[data-test="environment-cell"] > div > a',

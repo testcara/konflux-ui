@@ -3,6 +3,7 @@ import { actions } from '../support/pageObjects/global-po';
 import { ApplicationDetailPage } from '../support/pages/ApplicationDetailPage';
 import { ComponentDetailsPage } from '../support/pages/ComponentDetailsPage';
 import { ComponentPage } from '../support/pages/ComponentsPage';
+import { GetAppStartedPage } from '../support/pages/GetStartedPage';
 import { ComponentsTabPage } from '../support/pages/tabs/ComponentsTabPage';
 import { IntegrationTestsTabPage } from '../support/pages/tabs/IntegrationTestsTabPage';
 import { DetailsTab, TaskRunsTab } from '../support/pages/tabs/PipelinerunsTabPage';
@@ -41,14 +42,30 @@ describe('Basic Happy Path', () => {
     if (allTestsSucceeded || Cypress.env('REMOVE_APP_ON_FAIL')) {
       // use UI to remove the application to test the flow
       Common.navigateTo(NavItem.applications);
-      Applications.openKebabMenu(applicationName);
-      cy.get(actions.deleteApp).click();
-      cy.get(actions.deleteModalInput).clear().type(applicationName);
-      cy.get(actions.deleteModalButton).click();
-      // Temporary disabled flaky test. https://issues.redhat.com/browse/KFLUXUI-324
-      // cy.get(`[data-id="${applicationName}"]`).should('not.exist');
-      APIHelper.deleteGitHubRepository(repoName);
+      GetAppStartedPage.waitForLoad();
+      // we only delete the app when cy get the app.
+      // it means we would skip 'delete app' sometimes.
+      // i would improve it later.
+      cy.get(`[data-id="${applicationName}"]`)
+        .find(actions.kebabButton)
+        .then(($kebab) => {
+          if ($kebab.length > 0) {
+            cy.wrap($kebab).click();
+            cy.get(actions.deleteApp).then(($deleteApp) => {
+              if ($deleteApp.length > 0) {
+                cy.wrap($deleteApp).click();
+                cy.get(actions.deleteModalInput).clear().type(applicationName);
+                cy.get(actions.deleteModalButton).click();
+              }
+            });
+          }
+        });
     }
+
+    // we always needs to delete the github repo
+    cy.then(() => {
+      APIHelper.deleteGitHubRepository(repoName);
+    });
   });
 
   it('Create an Application with a component', () => {
