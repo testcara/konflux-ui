@@ -5,6 +5,7 @@ import {
   createComponent,
   createImageRepository,
   createSecret,
+  createSecretWithLinkingComponents,
 } from '../../utils/create-utils';
 import {
   EC_INTEGRATION_TEST_PATH,
@@ -122,6 +123,121 @@ export const createResources = async (
       notifications,
     });
     await createSecrets(secretsToCreate, namespace, false);
+  }
+
+  return {
+    applicationName,
+    application: applicationData,
+    component: createdComponent,
+  };
+};
+
+export const createSecretsWithLinkingComponents = async (
+  secrets: ImportSecret[],
+  namespace: string,
+  dryRun: boolean,
+) => {
+  // It looks like jobs would run in parellel, but it is not true.
+  // createSecretWithLinkingComponents would add real tasks into async queue.
+  // The async queue ensures jobs run one by one in order.
+  const results = await Promise.all(
+    secrets.map((secret) => createSecretWithLinkingComponents(secret, namespace, dryRun)),
+  );
+  return results;
+};
+
+export const createResourcesWithLinkingComponents = async (
+  formValues: ImportFormValues,
+  namespace: string,
+  notifications: SBOMEventNotification[],
+) => {
+  const {
+    source,
+    application,
+    componentName,
+    gitProviderAnnotation,
+    gitURLAnnotation,
+    inAppContext,
+    importSecrets = [],
+    pipeline,
+    showComponent,
+    isPrivateRepo,
+  } = formValues;
+  const shouldCreateApplication = !inAppContext;
+  let applicationName = application;
+  const componentAnnotations: { [key: string]: string } = {
+    [BUILD_PIPELINE_ANNOTATION]: JSON.stringify({ name: pipeline, bundle: 'latest' }),
+  };
+
+  const integrationTestValues: IntegrationTestFormValues = {
+    name: `${applicationName}-enterprise-contract`,
+    url: EC_INTEGRATION_TEST_URL,
+    revision: EC_INTEGRATION_TEST_REVISION,
+    path: EC_INTEGRATION_TEST_PATH,
+    optional: false,
+  };
+
+  if (shouldCreateApplication) {
+    await createApplication(application, namespace, true);
+    await createIntegrationTest(integrationTestValues, applicationName, namespace, true);
+  }
+  if (showComponent) {
+    await createComponent(
+      { componentName, application, source, gitProviderAnnotation, gitURLAnnotation },
+      applicationName,
+      namespace,
+      '',
+      true,
+      undefined,
+      'create',
+      undefined,
+      componentAnnotations,
+    );
+    await createImageRepository(
+      {
+        application,
+        component: componentName,
+        namespace,
+        isPrivate: isPrivateRepo,
+        notifications,
+      },
+      true,
+    );
+  }
+
+  let applicationData: ApplicationKind;
+  if (shouldCreateApplication) {
+    applicationData = await createApplication(application, namespace);
+    applicationName = applicationData.metadata.name;
+    await createIntegrationTest(integrationTestValues, applicationName, namespace);
+  }
+
+  let createdComponent;
+  if (showComponent) {
+    const secretsToCreate = importSecrets.filter((secret) =>
+      secret.existingSecrets.find((existing) => secret.secretName === existing.name) ? false : true,
+    );
+    await createSecretsWithLinkingComponents(secretsToCreate, namespace, true);
+
+    createdComponent = await createComponent(
+      { componentName, application, gitProviderAnnotation, source, gitURLAnnotation },
+      applicationName,
+      namespace,
+      '',
+      false,
+      undefined,
+      'create',
+      undefined,
+      componentAnnotations,
+    );
+    await createImageRepository({
+      application,
+      component: componentName,
+      namespace,
+      isPrivate: isPrivateRepo,
+      notifications,
+    });
+    await createSecretsWithLinkingComponents(secretsToCreate, namespace, false);
   }
 
   return {
