@@ -1,0 +1,24 @@
+language: typescript
+
+severity:
+  unused-imports: error
+  max-line-length: warning
+  missing-props-validation: warning
+  inconsistent-naming: warning
+  function-too-long: warning
+  cyclomatic-complexity-high: warning
+  deprecated-react-methods: error
+
+ignore:
+  - path: "node_modules/**"
+
+style:
+  max-line-length: 120
+  allow-console-log: false
+
+rules:
+  react-hooks-deps-check: true
+  enforce-patternfly-component-usage: true
+  consistent-jsx-naming: true
+  no-implicit-any: true
+  prefer-const-over-let: true
