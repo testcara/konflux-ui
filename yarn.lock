@@ -2261,20 +2261,15 @@
     lodash "^4.17.19"
     tslib "^2.5.0"
 
-"@patternfly/react-tokens@^5.3.1":
-  version "5.3.1"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-5.3.1.tgz#b0f840ee3ee3bcf72b5fbf35dc3fd5559666744d"
-  integrity sha512-VYK0uVP2/2RJ7ZshJCCLeq0Boih5I1bv+9Z/Bg6h12dCkLs85XsxAX9Ve+BGIo5DF54/mzcRHE1RKYap4ISXuw==
-
-"@patternfly/react-tokens@^5.4.1":
+"@patternfly/react-tokens@^5.3.1", "@patternfly/react-tokens@^5.4.1":
   version "5.4.1"
   resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-5.4.1.tgz#03104c5b73ef438076141f897a53d16507d8a115"
   integrity sha512-eygdHE7Krta1mijAv/E8RHiKIgysD0eeNTo8EXUYC8/M4e5K6sqpr2p6rQBF8QiRMN8FnbXvZT3K2OQ28pYt9Q==
 
 "@patternfly/react-topology@^5.4.0":
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-topology/-/react-topology-5.4.0.tgz#9ac37e640a7adbb13556f7fea348d144a11bed63"
-  integrity sha512-WGPunNm8HAQSkkTn0N05vFdNer9UOHWduTBXdyvuVAr/fQZrgglvplJe4qdMPOmT3R/8aVyGJP7itxV2J2b8EA==
+  version "5.4.1"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-topology/-/react-topology-5.4.1.tgz#f79ae319bb5ec4ed9203253093f7bd00b1ceb25f"
+  integrity sha512-3tgldDj7qKIGFKTQ1gyrwr3a/VDa/I5w0RBPqicppywvFygPrfi2NlK1Mt+3rtGW5R/fG64tzOcyZKx/y2Wpvw==
   dependencies:
     "@dagrejs/dagre" "1.1.2"
     "@patternfly/react-core" "^5.1.1"
