@@ -300,10 +300,12 @@
   dependencies:
     undici-types "~7.16.0"
 
-"@types/node@^17.0.13":
-  version "17.0.45"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.45.tgz#2c0fafd78705e7a18b7906b5201a522719dc5190"
-  integrity sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==
+"@types/node@^24.0.0":
+  version "24.10.4"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-24.10.4.tgz#9d27c032a1b2c42a4eab8fb65c5856a8b8e098c4"
+  integrity sha512-vnDVpYPMzs4wunl27jHrfmwojOGKya0xyM3sH+UE5iv5uPS6vX7UIoh6m+vQc5LGBq52HBKPIn/zcSZVzeDEZg==
+  dependencies:
+    undici-types "~7.16.0"
 
 "@types/sinonjs__fake-timers@8.1.1":
   version "8.1.1"
