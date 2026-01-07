@@ -2249,6 +2249,11 @@
   resolved "https://registry.yarnpkg.com/@patternfly/react-styles/-/react-styles-5.3.1.tgz#4bc42f98c48e117df5d956ee3f551d0f57ef1b35"
   integrity sha512-H6uBoFH3bJjD6PP75qZ4k+2TtF59vxf9sIVerPpwrGJcRgBZbvbMZCniSC3+S2LQ8DgXLnDvieq78jJzHz0hiA==
 
+"@patternfly/react-styles@^6.0.0":
+  version "6.4.0"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-styles/-/react-styles-6.4.0.tgz#2e29d59a4e3df737e742de58dc1525a27287415d"
+  integrity sha512-EXmHA67s5sy+Wy/0uxWoUQ52jr9lsH2wV3QcgtvVc5zxpyBX89gShpqv4jfVqaowznHGDoL6fVBBrSe9BYOliQ==
+
 "@patternfly/react-table@^5.3.4":
   version "5.3.4"
   resolved "https://registry.yarnpkg.com/@patternfly/react-table/-/react-table-5.3.4.tgz#f5e0ee5057cce7a54742ea9ca7f038aa9ca5e5ed"
